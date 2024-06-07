@@ -108,15 +108,32 @@ import React, { useState, useEffect } from 'react';
 import { IoSearchOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import OverlayEditStaff from "./overlayStaff";
+import AddStaff from "./AddStaff";
+import AddNewStaff from "./AddNewStaff";
+
 
 const STAFFALL_URL = 'https://bookstorewebdeploy-production.up.railway.app/BookStore/staff/all';
-const token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uYXV0aGVudGljYXRpb24iLCJzdWIiOiJhZG1pbiIsImV4cCI6MTcxNjk5OTQ1NiwiaWF0IjoxNzE2OTk1ODU2LCJzY29wZSI6IkFETUlOIEFETUlOX01BTkFHRSBTVEFGRiBJTVBPUlRfV09SS19DUkVBVEUgR0VUX1BBWU1FTlRfSU5GT1MgR0VUX0NVU1RPTUVSX0lORk9TIElNUE9SVF9XT1JLX0ZJTkQgSU1QT1JUX1dPUktfVVBEQVRFIElNUE9SVF9XT1JLX0RFTEVURSBWRVJJRllfT1JERVIgQ1VTVE9NRVIgR0VUX01ZX1BBWU1FTlRTIENSRUFURV9PUkRFUiBHRVRfTVlfQk9PS1MgQ0FOQ0xFX09SREVSIn0.oIhzzNqAlBonnLVyIAPMkRCuyjHW2_QAsXWu-venkSE';
+const token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uYXV0aGVudGljYXRpb24iLCJzdWIiOiJhZG1pbiIsImV4cCI6MTcxNzc4NDgwMSwiaWF0IjoxNzE3Nzc0MDAxLCJzY29wZSI6IlNUQUZGIEdFVF9QQVlNRU5UX0lORk9TIElNUE9SVF9XT1JLX0NSRUFURSBJTVBPUlRfV09SS19GSU5EIElNUE9SVF9XT1JLX0RFTEVURSBJTVBPUlRfV09SS19VUERBVEUgVkVSSUZZX09SREVSIEdFVF9DVVNUT01FUl9JTkZPUyBDVVNUT01FUiBDQU5DTEVfT1JERVIgQ1JFQVRFX09SREVSIEdFVF9NWV9CT09LUyBHRVRfTVlfUEFZTUVOVFMgQURNSU4gQURNSU5fTUFOQUdFIn0.t7ecIQwVFvr1JVUP8jwGPNQd7a2cje_N_6q8_GhBCxE';
 
 
 export default function StaffList() {
     const [stafflistdata, setStaffListData] = useState([]);
     const [searchStaff, setSearchStaff] = useState('');
-
+    const [showAddStock, setshowAddStock] = useState(false);
+    const [overlayVisible, setOverlayVisible] = useState(false); // State để điều khiển hiển thị overlay
+  
+  
+    const openDialog = () => {
+        setshowAddStock(true);
+        setOverlayVisible(true); // Hiển thị overlay khi mở dialog
+    };
+  
+    const closeDialog = () => {
+        setshowAddStock(false);
+        setOverlayVisible(false); // Ẩn overlay khi đóng dialog
+    };
+    
     useEffect(() => {
         localStorage.setItem('token', token);
     
@@ -163,7 +180,14 @@ export default function StaffList() {
 
     return (
         <div className='w-full h-full'>
-            <div className="list-chat-search relative flex w-full border-b h-16 -top-0 border-border--lightcolor">
+            {showAddStock && (
+                <AddStaff trigger={setshowAddStock} setTrigger={setshowAddStock}>
+                    <OverlayEditStaff isOpen={overlayVisible} onClose={closeDialog}>
+                        <AddNewStaff />
+                    </OverlayEditStaff>
+                </AddStaff>
+            )}
+            <div className="list-chat-search relative flex w-full border-b h-16  gap-10 items-center -top-0 border-border--lightcolor">
                 <div className='w-2/5 relative flex items-center'>
                     <input 
                         type="text" 
@@ -174,6 +198,16 @@ export default function StaffList() {
                     />
                     <span className='text-xl absolute right-3 text-primary--color '><IoSearchOutline/></span>
                 </div>
+                <button
+                onClick={openDialog}
+                className="btn_addworkshift bg-primary--color text-white--color rounded-full mb-2 mr-8 cursor-pointer hover:opacity-70 border 
+                            h-10 w-28 text-xs 
+                            sm:w-26 sm:text-sm
+                            md:w-26 md:text-sm
+                            lg:w-32 lg:text-sm"
+                >
+                Thêm nhân viên
+              </button>
             </div>
 
             <div className="KH_maincontent_footer_content w-full h-full text-primary--color overflow-auto rounded-lg shadow md:overflow-hidden">
@@ -202,7 +236,7 @@ export default function StaffList() {
                                     <td className="w-1/6 text-center">{new Date(item.birthday).toLocaleDateString()}</td>
                                     <td className="w-1/6 text-center">{item.phonenumber}</td>
                                     <td className="w-1/6 text-center">{item.salary}</td>
-                                    <td className="w-1/6 text-center">{item.id == 1 ?  "Admin":"Nhân viên"}</td>
+                                    <td className="w-1/6 text-center">{item.id === 1 ?  "Admin":"Nhân viên"}</td>
                                 </tr>
                             ))}
                         </tbody>

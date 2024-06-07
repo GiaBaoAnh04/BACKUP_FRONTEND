@@ -1,9 +1,11 @@
-import React from 'react'
+import Maincontent from './Maincontent';
 
-export default function Dashboard() {
+const Dashboard = () => {
+
   return (
-    <div>
-       
+    <div className='w-full h-full'>
+      <Maincontent />
     </div>
-  )
-}
+  );
+};
+export default Dashboard;

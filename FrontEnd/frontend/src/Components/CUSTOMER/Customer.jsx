@@ -4,7 +4,7 @@ export default function Customer() {
   return (
     <div className='w-full h-full relative overflow-hidden'>
       
-    <CustomerList/>
+      <CustomerList/>
      
 
     </div>

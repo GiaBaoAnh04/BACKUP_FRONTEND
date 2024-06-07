@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 
-export default function CelanderTop({ onSearch, triggerAddWorkShift }) {
+export default function CelanderTop({ onSearch, triggerAddWorkShift,triggerUpdateWorkShift }) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearchChange = (event) => {
@@ -13,6 +13,10 @@ export default function CelanderTop({ onSearch, triggerAddWorkShift }) {
 
   const handleAddWorkShiftClick = () => {
     triggerAddWorkShift(true); // Set the state to true to display the AddWorkshift component
+  };
+
+  const handleUpdateWorkShiftClick = () => {
+    triggerUpdateWorkShift(true); // Set the state to true to display the AddWorkshift component
   };
 
 
@@ -37,6 +41,15 @@ export default function CelanderTop({ onSearch, triggerAddWorkShift }) {
                         lg:w-46 lg:text-sm"
       >
         Thêm Lịch Làm Việc
+      </button>
+      <button
+        onClick={handleUpdateWorkShiftClick}
+        className="btn_addworkshift bg-primary--color text-white--color rounded-full ml-4 cursor-pointer hover:opacity-70 border  h-10 w-36 text-xs 
+                        sm:w-40 sm:text-sm
+                        md:w-46 md:text-sm
+                        lg:w-46 lg:text-sm"
+      >
+       Sửa Lịch Làm Việc
       </button>
       
     </div>
